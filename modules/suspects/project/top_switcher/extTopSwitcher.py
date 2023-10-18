@@ -34,8 +34,9 @@ class extTopSwitcher:
 
 	def _unload(self, selector:COMP, do_callback = True):
 		target_top:TOP 		= selector.par.Top.eval()
-		selector.par.Top 	= ''
-		selector.par.Alpha 	= 0
+		selector.par.Top.val 	= ''
+		selector.par.Alpha.val 	= 0
+		selector.par.State.val 	= 0
 		self.standbySelectors.append( selector )
 		try:
 			self.activeSelectors.remove( selector )
@@ -47,9 +48,9 @@ class extTopSwitcher:
 		for parameterName in self.parameterNames:
 			self.tweener.AbsoluteTween( selector.par[ parameterName.capitalize() ], self.ownerComp.par[f"{target}{parameterName}"].eval(), time)
 
-	def SelectTop(self, top:TOP, time:float):
+	def SelectTop(self, top:TOP, time:float, force:bool = False):
 		if not self.standbySelectors: return
-
+		if (not force) and (top in [selector.par.Top.eval() for selector in self.activeSelectors]): return
 		for active_selector in self.activeSelectors: 
 			if active_selector.par.State.eval(): self._fadeTo( active_selector, "End", time)
 
