@@ -4,7 +4,7 @@
             "name": "Touchdesigner: Attach to Process",
             "type": "python",
             "request": "attach",
-            "processId": 23956,
+            "processId": 70964,
             "justMyCode": true,
             "pathMappings": [
                 {
