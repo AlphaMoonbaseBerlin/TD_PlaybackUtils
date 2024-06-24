@@ -17,8 +17,13 @@ class ext3dSceneCompositor:
 		self.ownerComp = ownerComp
 		self.tweener = self.ownerComp.op("tweenerDependency").GetGlobalComponent()
 
+
+	def _items(self):
+		return { child for child in self.ownerComp.op("itemRepo").Repo.findChildren( depth = 1, parName = "Level")}
+
+
 	def _activeItems(self):
-		return { child for child in self.ownerComp.op("itemRepo").Repo.findChildren( type = geometryCOMP, depth = 1, parName = "Level") if child.par.render.eval() }
+		return { child for child in self._items() if child.par.Level.eval() }
 
 	def _sceneItems(self, name):
 		sceneTable = self.ownerComp.op("sceneRepo").Repo.op(name)
