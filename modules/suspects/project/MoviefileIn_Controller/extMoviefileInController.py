@@ -24,6 +24,7 @@ class extMoviefileInController:
 		if restart: self.Target.par.cuepulse.pulse()
 		self.Target.par.play.val = True
 		return
+	
 	def Stop(self, reset = False):
 		if reset: self.Target.par.cuepulse.pulse()
 		self.Target.par.play.val = False
