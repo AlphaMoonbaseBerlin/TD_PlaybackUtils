@@ -47,8 +47,8 @@ class ext3dSceneCompositor:
 
 	def _presetFade(self, itemOP, sceneName, time):
 		presetManager 	= itemOP.op("_presetManager")
-		if presetManager is None: return
-		presetManager.Recall_Preset(sceneName, time)
+		if presetManager is None: return False
+		return presetManager.Recall_Preset(sceneName, time)
 
 	def Take(self, sceneNames:Union[str, list], time:float):
 		sceneItems = set()
@@ -77,8 +77,16 @@ class ext3dSceneCompositor:
 
 		for fadeInItem in fadeInItems:
 			fadeTime = time if fadeInItem.par.Customintime.eval() < 0 else fadeInItem.par.Customintime.eval()
+			
 			for sceneName in sceneNames:
-				self._presetFade(fadeInItem, sceneName , 0)
+				( 	self._presetFade(
+						fadeInItem, f"_pre_{sceneName}" , 0
+					) and self._presetFade(
+						fadeInItem, f"{sceneName}" , fadeTime
+					) 
+				) or self._presetFade(
+					fadeInItem, f"{sceneName}" , 0
+				)
 			fadeInItem.par.Progress.val = 0
 			self._fadeProgress( fadeInItem, 1, fadeTime)
 			self._fadeLevel( fadeInItem, 1, fadeTime)
