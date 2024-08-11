@@ -31,13 +31,14 @@ class extTopSwitcher:
 
 	@property
 	def selectors(self):
-		return self.ownerComp.findChildren(name = "selector[1-99]", depth = 1)
+		return self.ownerComp.findChildren(name = "selector[1-6]", depth = 1)
 
 	@property
 	def sortedSelectors(self):
 		return sorted( 
 			self.selectors, 
-			key = lambda selector : selector.fetch("_selectionTimestamp", 0))
+			key = lambda selector : selector.fetch("_selectionTimestamp", 0)
+		)
 
 	@property
 	def availableSelectors(self):
@@ -73,11 +74,8 @@ class extTopSwitcher:
 		for fadeOutSelector in self.activeSelectors:
 			self._fadeTo( fadeOutSelector, "End", time)
 
-		try:
-			fadeInSelector = self.availableSelectors.pop()
-		except IndexError:
-			return False
-
+		fadeInSelector = self.sortedSelectors[0]
+		debug( fadeInSelector )
 		fadeInSelector.par.Top = top
 		fadeInSelector.store( "_selectionTimestamp", absTime.frame )
 		self._fadeTo( fadeInSelector, "Start", 0)

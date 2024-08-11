@@ -1,4 +1,3 @@
-
 '''Info Header Start
 Name : extAudioOneshot
 Author : Wieland@AMB-ZEPH15
@@ -17,7 +16,7 @@ class extAudioOneshot:
 	def __init__(self, ownerComp):
 		# The component to which this extension is attached
 		self.ownerComp:COMP = ownerComp
-
+		
 	
 	def newPlayer(self, filepath):
 		newPlayer = self.ownerComp.copy( self.ownerComp.op("prefab"), name = "player0")

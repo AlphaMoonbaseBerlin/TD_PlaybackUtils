@@ -19,7 +19,7 @@ class ext3dSceneCompositor:
 
 
 	def _items(self):
-		return { child for child in self.ownerComp.op("itemRepo").Repo.findChildren( depth = 1, parName = "Level")}
+		return { child for child in self.ownerComp.op("itemRepo").Repo.findChildren( depth = 1, parName = "Level Progress")}
 
 
 	def _activeItems(self):
