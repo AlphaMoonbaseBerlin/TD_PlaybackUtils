@@ -5,6 +5,7 @@ Saveorigin : Project.toe
 Saveversion : 2022.32660
 Info Header End"""
 import table_utils
+from typing import Union
 
 class extTimelinePlayhead:
     """
@@ -12,9 +13,9 @@ class extTimelinePlayhead:
 	"""
 
     def __init__(self, ownerComp):
-        self.ownerComp = ownerComp
-        self.playhead = self.ownerComp.par.Playhead
-        self.prev_playhead = 0
+        self.ownerComp: Union[COMP, extTimelinePlayhead] = ownerComp
+        self.playhead: Par = self.ownerComp.par.Playhead
+        self._prevPlayheadValue: float = 0
         pass
 
     @property
@@ -23,6 +24,10 @@ class extTimelinePlayhead:
 
     @property
     def PlayheadValue(self) -> float:
+        pass
+
+    def JumpTo(self, target: str):
+        """Jump to a predefined Jumppoint."""
         pass
 
     def GoTo(self, target: float):
