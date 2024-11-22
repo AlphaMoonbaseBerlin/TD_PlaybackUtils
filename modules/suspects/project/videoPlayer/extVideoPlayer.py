@@ -1,10 +1,8 @@
-
-
 '''Info Header Start
 Name : extVideoPlayer
 Author : Wieland@AMB-ZEPH15
 Saveorigin : Project.toe
-Saveversion : 2022.32660
+Saveversion : 2023.11880
 Info Header End'''
 
 class extVideoPlayer:
@@ -16,8 +14,11 @@ class extVideoPlayer:
 		self.ownerComp = ownerComp
 
 		self.StatusCHOP = self.ownerComp.op('playback_state')
-		self.Player = self.ownerComp.op('moviefilein1')
+		#self.Player = self.ownerComp.op('moviefilein1')
 
+	@property
+	def Player(self):
+		return self.ownerComp.op("repoMaker").Repo
 
 	def Load(self, filepath):
 		#self.Unload()
@@ -35,7 +36,6 @@ class extVideoPlayer:
 	def Start(self):
 		self.Player.par.cuepulse.pulse()
 		self.Player.par.play = True
-		self.ownerComp.op("timer1").par.start.pulse()
 		self.ownerComp.op('callbackManager').Do_Callback("OnPlayStart", self.ownerComp )
 
 	def Stop(self, unload = True):
