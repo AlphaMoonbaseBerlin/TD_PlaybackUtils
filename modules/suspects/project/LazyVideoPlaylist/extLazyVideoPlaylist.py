@@ -27,24 +27,21 @@ class extLazyVideoPlaylist:
 	def availableController(self):
 		return [ controller for controller 
 		  in self.controller 
-		  if not controller.op("out1")["open"].eval()
-		  and not controller.op("out1")["opening"].eval()
+		 	if controller.Idle
 		]
 	
 	@property
 	def readyController(self):
 		return [ controller for controller 
 		  in self.controller 
-		  if controller.op("out1")["open"].eval()
-		  and not controller.op("out1")["playing"].eval()
+		  if controller.Ready and not controller.Running
 		]
 	
 	@property
 	def runningController(self):
 		return [ controller for controller 
 		  in self.controller 
-		  if controller.op("out1")["playing"].eval()
-		  and not controller.op("out1")["trigger"].eval()
+		  if controller.Running
 		]
 
 	@property
@@ -69,6 +66,13 @@ class extLazyVideoPlaylist:
 		return "C:/Program Files/Derivative/TouchDesigner.2023.11880/Samples/Map/Nature/Movie.1.mp4"
 	
 	def PlayNext(self):
+		if not self.ownerComp.par.Continue.eval(): 
+			self.log("Not continuing!")
+			op("top_switcher").Select_Top(
+				None,
+				self.ownerComp.par.Transitiontime.eval()
+			)	
+			return
 		try:
 			nextPlayer = self.readyController[0]
 		except IndexError:
@@ -85,7 +89,9 @@ class extLazyVideoPlaylist:
 		)
 
 	def CheckPlayNext(self):
-		if len( self.runningController ): return
+		if len( self.runningController ): 
+			self.log("Active controllers being active", self.runningController)
+			return
 		self.log("No players active atm, giving them a stub.")
 		self.PlayNext()
 

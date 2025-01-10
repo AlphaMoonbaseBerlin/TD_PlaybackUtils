@@ -50,13 +50,20 @@ class ext3dSceneCompositor:
 		return presetManager.Recall_Preset(sceneName, time)
 
 
+	def SetItem(self, item:COMP, state:bool, time = 1, presetName = ""):
+		if not item.par.State.eval(): item.par.Progress.val = 0
+		self._fadeLevel( item, float(state), time )
+		self._fadeProgress( item, 1+float(not state), item)
+
 	def SetItems(self, sceneItems, time, presetNames = []):
 
 		activeItems 	= self._activeItems()
 		fadeOutItems 	= activeItems - sceneItems
 		fadeInItems 	= sceneItems - activeItems
 		transitionItems = activeItems - fadeOutItems - fadeInItems
-	
+		self.ownerComp.op("callbackManager").Do_Callback(
+			"onRecall", fadeInItems, fadeOutItems, transitionItems, time, self.ownerComp
+		)
 		for transitionItem in transitionItems:
 			for presetName in presetNames:
 				self._presetFade(transitionItem, presetName , time)
