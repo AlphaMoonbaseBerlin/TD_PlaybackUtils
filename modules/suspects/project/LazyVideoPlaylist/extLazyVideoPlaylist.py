@@ -82,12 +82,8 @@ class extLazyVideoPlaylist:
 			return
 		self.log("Playing with Player", nextPlayer)
 		nextPlayer.Start()
-		self.ownerComp.op("callbackManager").Do_Callback( "onNext", nextPlayer, nextPlayer.Player )
-		op("top_switcher").Select_Top(
-			nextPlayer.op("video_out"),
-			self.ownerComp.par.Transitiontime.eval()
-		)
-
+		self.ownerComp.op("callbackManager").Do_Callback( "onNext", nextPlayer, nextPlayer.Player, self.ownerComp )
+		
 	def CheckPlayNext(self):
 		if len( self.runningController ): 
 			self.log("Active controllers being active", self.runningController)
@@ -98,4 +94,4 @@ class extLazyVideoPlaylist:
 	def Reset(self):
 		for controller in self.controller:
 			controller.Unload()
-		self.ownerComp.op("top_switcher").Select_Top(None, 0)
+		self.ownerComp.op("callbackManager").Do_Callback( "onReset", self.ownerComp )

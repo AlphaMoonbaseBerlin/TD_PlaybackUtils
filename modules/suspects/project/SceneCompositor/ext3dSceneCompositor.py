@@ -89,6 +89,8 @@ class ext3dSceneCompositor:
 			self._fadeProgress( fadeInItem, 1, fadeTime)
 			self._fadeLevel( fadeInItem, 1, fadeTime)
 
+		return fadeInItems, transitionItems, fadeOutItems
+
 	def Take(self, sceneNames:Union[str, list], time:float):
 		sceneItems = set()
 
@@ -100,7 +102,7 @@ class ext3dSceneCompositor:
 		
 		if not sceneItems: sceneItems = self._sceneItems( ["_Default"] )
 
-		self.SetItems( sceneItems, time, presetNames = sceneNames )
+		return self.SetItems( sceneItems, time, presetNames = sceneNames )
 
 
 	def RecordNewScene(self, name, recordPreset = True):
